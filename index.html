@@ -49,13 +49,6 @@
     </div>
 
     <div class="field-group">
-        <label>Foto:</label>
-        <input type="file" id="foto" name="foto" accept="image/*" capture="camera" multiple>
-        <div id="photo-preview">
-            </div>
-    </div>
-
-    <div class="field-group">
         <label>Firma:</label>
         <canvas id="signature-area" width="400" height="150"></canvas>
         <div class="signature-controls">
@@ -128,41 +121,6 @@
     function clearSignature() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-
-    // --- Logica per le Foto (Anteprima) ---
-
-    const photoInput = document.getElementById('foto');
-    const photoPreview = document.getElementById('photo-preview');
-    
-    // Variabile per tenere traccia dei Data URL delle immagini (necessario per il PDF)
-    const photoDataUrls = []; 
-
-    photoInput.addEventListener('change', function(e) {
-        photoPreview.innerHTML = ''; // Pulisce le anteprime precedenti
-        photoDataUrls.length = 0; // Pulisce l'array dei Data URL
-        
-        const files = e.target.files;
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                const imgDataUrl = e.target.result;
-                photoDataUrls.push(imgDataUrl); // Salva il Data URL
-
-                const photoItem = document.createElement('div');
-                photoItem.className = 'photo-item';
-                
-                const img = document.createElement('img');
-                img.src = imgDataUrl;
-                
-                photoItem.appendChild(img);
-                photoPreview.appendChild(photoItem);
-            };
-            reader.readAsDataURL(file); // Converte il file in Data URL
-        }
-    });
-
 
     // --- Logica per la Generazione PDF ---
     
@@ -280,40 +238,8 @@
             pdf.text('Firma non apposta.', margin, y_position + line_height * 0.5);
             y_position += line_height * 1.5;
         }
-
-        // 7. Foto (come Immagini)
-        if (photoDataUrls.length > 0) {
-            pdf.setFontSize(14);
-            pdf.setFont('helvetica', 'bold');
-            pdf.text('Foto Allegate:', margin, y_position);
-            y_position += line_height * 0.8;
-            
-            const photoWidth = 60; // Larghezza fissa per ogni foto
-            const photoHeight = 45; // Altezza fissa per ogni foto
-            let currentX = margin;
-
-            for (const url of photoDataUrls) {
-                // Controlla se la riga corrente è piena o se si è vicini al fondo
-                if (currentX + photoWidth > pdf.internal.pageSize.getWidth() - margin) {
-                    currentX = margin; // Vai a inizio riga
-                    y_position += photoHeight + 5; // Nuova riga
-                }
-
-                // Controllo fine pagina
-                if (y_position + photoHeight > pdf.internal.pageSize.getHeight() - margin) {
-                    pdf.addPage();
-                    y_position = margin; // Reset Y sulla nuova pagina
-                    currentX = margin; // Reset X sulla nuova pagina
-                }
-                
-                pdf.addImage(url, 'JPEG', currentX, y_position, photoWidth, photoHeight);
-                currentX += photoWidth + 5; // Sposta X per la prossima foto
-            }
-            
-             y_position += photoHeight + line_height; // Sposta Y dopo l'ultima riga di foto
-        }
-
-        // 8. Genera e Scarica
+        
+        // 7. Genera e Scarica
         const filename = `Rapportino_${cliente.replace(/\s/g, '_')}_${data}.pdf`;
         pdf.save(filename);
     }
@@ -359,3 +285,4 @@
 </body>
 
 </html>
+
