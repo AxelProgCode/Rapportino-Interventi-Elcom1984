@@ -1,0 +1,189 @@
+/* Variabili CSS per Facile Personalizzazione */
+:root {
+    --primary-color: #1a73e8; /* Blu Google/Aziendale */
+    --secondary-color: #f1f3f4; /* Grigio chiaro per sfondo/separazione */
+    --text-color: #333;
+    --border-color: #ccc;
+    --danger-color: #d93025; /* Rosso per l'azione Cancella */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--secondary-color);
+}
+
+/* Contenitore Principale */
+.container {
+    max-width: 900px; /* Aumentiamo leggermente la larghezza massima */
+    margin: 20px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Ombra più definita */
+}
+
+h1 {
+    text-align: center;
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+/* Gruppi di Campi */
+.field-group {
+    margin-bottom: 20px;
+    padding: 0;
+    /* Rimosso il bordo per un aspetto più pulito */
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+    color: var(--text-color);
+    font-size: 1em;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-sizing: border-box; 
+    margin-top: 4px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 1em;
+}
+
+/* Effetto Focus */
+input:focus, textarea:focus, #signature-area:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2); /* Ombra leggera colorata */
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Campi Affiancati (Data/Ora) - Usiamo Flexbox per la Reattività */
+.row {
+    display: flex;
+    gap: 20px; /* Spazio tra le colonne */
+}
+.col {
+    flex: 1; /* Distribuisce lo spazio equamente */
+}
+
+/* Stili per la sezione Foto */
+#photo-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px dashed var(--border-color);
+    border-radius: 6px;
+}
+.photo-item {
+    position: relative;
+    overflow: hidden;
+    width: 80px; /* Fissa la dimensione per le anteprime */
+    height: 80px;
+    border-radius: 4px;
+}
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Assicura che l'immagine copra l'area senza deformarsi */
+    display: block;
+}
+
+/* Area Firma */
+#signature-area {
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    cursor: crosshair;
+    background-color: #fff;
+}
+.signature-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Stile dei Bottoni */
+.button, button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+.button:hover, button:hover {
+    background-color: #1565c0; /* Tonalità di blu più scura */
+}
+
+.button-group {
+    text-align: center;
+    margin: 40px 20px 40px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.button-group .button {
+    width: 100%;
+}
+
+/* Stile specifico per il bottone di Cancella Firma */
+.signature-controls button {
+    background-color: var(--danger-color);
+    padding: 8px 15px;
+    font-size: 0.9em;
+}
+.signature-controls button:hover {
+    background-color: #c52920;
+}
+
+/* 📱 Media Query per la Reattività (IMPORTANTE per l'uso mobile) */
+@media (max-width: 600px) {
+    .container {
+        margin: 0;
+        padding: 15px;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    /* Su schermi piccoli, i campi Data/Ora si allineano in colonna */
+    .row {
+        flex-direction: column;
+        gap: 0;
+    }
+    .col {
+        margin-bottom: 10px;
+    }
+    h1 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+    .button, button {
+        width: 100%; /* Bottone Salva a tutta larghezza su mobile */
+        padding: 15px 0;
+    }
+    /* Adatta la larghezza del canvas per la firma */
+    #signature-area {
+        width: 100%;
+        /* L'altezza rimane fissa (150px) */
+    }
+}
