@@ -336,28 +336,23 @@
         const subject = encodeURIComponent(`Rapportino di Intervento | Cliente: ${cliente} | Data: ${data}`);
 
         // 3. Costruzione del Corpo (Body)
-        let body = `Gentile cliente / Ufficio Amministrazione,\n\n`;
-        body += `In allegato si trova il rapportino di intervento tecnico n. [INSERIRE ID/NUMERO MANUALE] relativo a:\n\n`;
+        let body = `Rapportino di intervento tecnico relativo a:\n\n`;
         body += `Cliente: ${cliente}\n`;
         body += `Tecnico Intervento: ${tecnico}\n`;
         body += `Data: ${data}\n\n`;
-        body += `Ricorda di allegare il file PDF appena scaricato.\n\n`;
-        body += `Saluti,`;
+        body += `VEDI ALLEGATO`;
 
         // Uso di encodeURIComponent per formattare il testo per l'URL
         const encodedBody = encodeURIComponent(body);
 
         // 4. Creazione del link mailto:
-        // Puoi pre-impostare l'indirizzo email a cui inviare il rapportino (ad esempio, il tuo ufficio)
-        const recipientEmail = 'ufficio@tuaditta.it'; // <<<< MODIFICA QUESTO INDIRIZZO
+        // Indirizzo email a cui inviare il rapportino
+        const recipientEmail = 'info@elcomcongno.it';
 
         const mailtoLink = `mailto:${recipientEmail}?subject=${subject}&body=${encodedBody}`;
 
         // 5. Apertura del client di posta
         window.location.href = mailtoLink;
-
-        // Istruzione all'utente per l'allegato
-        alert('Il tuo client di posta si sta aprendo. Ricorda di allegare manualmente il file PDF appena scaricato!');
     }
 
 </script>
